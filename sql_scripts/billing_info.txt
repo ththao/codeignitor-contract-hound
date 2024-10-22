@@ -1,0 +1,8 @@
+ALTER TABLE `billing_info`   
+  CHANGE `first_name` `first_name` VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci NULL,
+  CHANGE `last_name` `last_name` VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci NULL,
+  CHANGE `address` `address` VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci NULL,
+  CHANGE `address2` `address2` VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci DEFAULT ''  NULL,
+  CHANGE `city` `city` VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci NULL,
+  CHANGE `state` `state` VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci NULL,
+  CHANGE `zip` `zip` VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci NULL;

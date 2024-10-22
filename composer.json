@@ -1,0 +1,12 @@
+{
+    "require": {
+        "aws/aws-sdk-php": "3.180.6",
+        "guzzlehttp/guzzle": "^6.2",
+        "wildbit/postmark-php": "^2.2",
+        "intercom/intercom-php": "^3.0",
+        "docusign/esign-client": "^3.0",
+        "vlucas/phpdotenv": "^5",
+        "bugsnag/bugsnag": "^3.0",
+        "stripe/stripe-php": "^7.68"
+    }
+}

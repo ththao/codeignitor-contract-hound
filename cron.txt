@@ -1,0 +1,10 @@
+MAILTO=""
+
+00 02 * * * find /jet/app/www/default/application/logs -name "log*.php" -type f -mtime +7 -exec rm {} \;
+
+00 01 * * * php /jet/app/www/default/croncli.php --run=/cron/check_subscriptions --nodup=1
+00 * * * * php /jet/app/www/default/croncli.php --run=/cron/expire_trials --nodup=1
+00 * * * * php /jet/app/www/default/croncli.php --run=/cron/send_reminders --nodup=1
+00 * * * * php /jet/app/www/default/croncli.php --run=/docusign/cron_refresh_tokens --nodup=1
+00 * * * * php /jet/app/www/default/croncli.php --run=/docusign/cron_check_contracts --nodup=1
+* * * * * php /jet/app/www/default/croncli.php --run=/docusign/cron_send_contracts --nodup=1

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+for x in $(seq 1 10); do
+  HTTP_CODE=$(curl --write-out '%{http_code}' -o /dev/null -m 10 -q -s -L -k https://localhost)
+  if [ "${HTTP_CODE}" == "200" ]; then
+    printf "Successfully retrieved page\n"
+    exit 0
+  fi
+  printf "WARNING: Attempt to retrieve endpoint URL returned HTTP code ${HTTP_CODE}. Retrying...\n"
+  sleep 10
+done
+printf "CRITICAL: Could not retrieve page. Failing."
+exit 1

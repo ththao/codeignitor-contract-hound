@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteRule ^view/([a-zA-Z0-9]{32})$ /download2.php?type=view&file=$1 [R,L]
+RewriteRule ^download/([a-zA-Z0-9]{32})$ /download2.php?type=download&file=$1 [R,L]
+RewriteRule ^([a-zA-Z0-9]{32})$ /download2.php?type=download&file=$1 [R,L]
+RewriteRule !^([a-zA-Z0-9]{32})$ - [L,R=404]

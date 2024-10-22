@@ -1,0 +1,2 @@
+ALTER TABLE `contracts`   
+  ADD COLUMN `docusign_error` TINYINT(1) DEFAULT 0  NULL AFTER `last_updated`;

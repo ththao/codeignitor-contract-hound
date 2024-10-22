@@ -1,0 +1,17 @@
+#!/bin/bash
+
+sed -i.bak s/$'\r'//g /jet/www/default/.env
+read_var() {
+    VAR=$(grep $1 $2 | xargs)
+    IFS="=" read -ra VAR <<< "$VAR"
+    echo ${VAR[1]}
+}
+
+apiKey=$(read_var BUGSNAG_API_KEY /jet/www/default/.env)
+releaseStage=$(read_var CI_ENV /jet/www/default/.env)
+ubuntu_ver=$(lsb_release -a 2>/dev/null | grep Description | cut -d":" -f2)
+appVersion=$(git rev-parse HEAD 2>/dev/null)
+
+echo "apiKey=${apiKey}&releaseStage=${releaseStage}&appVersion=${appVersion}&environment=${ubuntu_ver}&developmentId=${DEVELOPMENT_ID}"
+
+curl -d "apiKey=${apiKey}&releaseStage=${releaseStage}&appVersion=${appVersion}&environment=${ubuntu_ver}&developmentId=${DEVELOPMENT_ID}" https://notify.bugsnag.com/deploy

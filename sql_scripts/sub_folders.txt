@@ -1,0 +1,1 @@
+ALTER TABLE `boards` ADD COLUMN `parent_board_id` INT(11) NULL AFTER `parent_id`;

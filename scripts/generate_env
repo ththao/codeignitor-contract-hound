@@ -1,0 +1,26 @@
+#!/bin/bash
+
+function stage_check() {
+  STAGING_INSTANCE=$(aws ec2 describe-instances | jq '[.Reservations | .[] | .Instances | .[] | select((.Tags[]|select(.Key=="environment")|.Value) =="staging")]' | jq -er ".[] | .InstanceId")
+  CURRENT_INSTANCE=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+  if [[ "${STAGING_INSTANCE}" == "${CURRENT_INSTANCE}" ]]; then
+    environment=stage
+  else
+    environment=prod
+  fi
+}
+
+stage_check
+
+if [ -z "${environment}" ]; then
+  printf "CRITICAL: Environment not set, cannot continue."
+  exit 1
+else
+  for parameter in $(aws ssm get-parameters-by-path --path /${environment} --max-items 100 | jq -r '.Parameters[].Name'); do
+    key=$(printf ${parameter} | sed "s/\/${environment}\///" | tr '[:lower:]' '[:upper:]')
+    value=$(aws ssm get-parameter --name ${parameter} | jq -r '.Parameter.Value')
+    printf "${key}="\""${value}"\""\n"
+  done > /jet/www/default/.env
+
+  exit 0
+fi

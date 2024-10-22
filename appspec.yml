@@ -1,0 +1,55 @@
+version: 0.0
+os: linux
+files:
+  - source: application
+    destination: /jet/www/default/application/
+  - source: assets
+    destination: /jet/www/default/assets/
+  - source: ctcssa
+    destination: /jet/www/default/ctcssa/
+  - source: system
+    destination: /jet/www/default/system/
+  - source: ui
+    destination: /jet/www/default/ui/
+  - source: index.php
+    destination: /jet/www/default/
+  - source: favicon.ico
+    destination: /jet/www/default/
+  - source: cron.php
+    destination: /jet/www/default/
+  - source: cron.txt
+    destination: /jet/www/default/
+  - source: croncli.php
+    destination: /jet/www/default/
+  - source: cronblah.txt
+    destination: /jet/www/default/
+  - source: download.php
+    destination: /jet/www/default/
+  - source: download2.php
+    destination: /jet/www/default/
+  - source: comodo_secure_seal_113x59_transp.png
+    destination: /jet/www/default/
+  - source: .env.example
+    destination: /jet/www/default/
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies
+      timeout: 300
+      runas: ec2-user
+  AfterInstall:
+    - location: scripts/generate_env
+      timeout: 300
+      runas: ec2-user
+    - location: scripts/set_permissions
+      timeout: 120
+      runas: ec2-user
+    - location: scripts/restart_service
+      timeout: 180
+      runas: ec2-user
+  ValidateService:
+    - location: scripts/validate_service
+      timeout: 180
+      runas: ec2-user
+    - location: scripts/notify_bugsnag
+      timeout: 180
+      runas: ec2-user
